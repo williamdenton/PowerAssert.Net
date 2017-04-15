@@ -9,7 +9,7 @@ namespace PowerAssert.Hints
 {
     class StringEqualsHint : IHint
     {
-        static readonly MethodInfo[] StringEqualsMethodInfo = typeof (string).GetMethods()
+        static readonly MethodInfo[] StringEqualsMethodInfo = ReflectionShim.GetMethods(typeof(string))
             .Where(x => x.Name == "Equals" && !x.IsStatic && x.GetParameters().First().ParameterType == typeof (string)).ToArray();
 
         static StringComparer GetComparerFromComparison(StringComparison comparison)

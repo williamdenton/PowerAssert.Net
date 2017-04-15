@@ -12,7 +12,7 @@ namespace PowerAssert.Hints
     /// </summary>
     class EnumerableEqualsHint : IHint
     {
-        static readonly MethodInfo ObjectInstanceEqualsMethodInfo = typeof (object).GetMethods().Single(x => x.Name == "Equals" && !x.IsStatic);
+        static readonly MethodInfo ObjectInstanceEqualsMethodInfo = ReflectionShim.GetMethods(typeof (object)).Single(x => x.Name == "Equals" && !x.IsStatic);
 
         public bool TryGetHint(ExpressionParser parser, Expression expression, out string hint)
         {

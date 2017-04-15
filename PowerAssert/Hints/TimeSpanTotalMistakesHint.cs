@@ -10,14 +10,14 @@ namespace PowerAssert.Hints
     {
         static readonly MethodInfo[] EqualsMethodInfos =
         {
-            typeof (object).GetMethod("Equals", BindingFlags.Instance | BindingFlags.Public),
-            typeof (int).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+            ReflectionShim.GetMethod(typeof (object), "Equals", BindingFlags.Instance | BindingFlags.Public),
+            ReflectionShim.GetMethods(typeof (int), BindingFlags.Instance | BindingFlags.Public)
                 .Single(x => x.Name == "Equals" && x.GetParameters().First().ParameterType == typeof (int)),
         };
 
         static readonly MethodInfo[] StaticEqualsMethodInfos =
         {
-            typeof (object).GetMethod("Equals", BindingFlags.Static | BindingFlags.Public),
+            ReflectionShim.GetMethod(typeof (object), "Equals", BindingFlags.Static | BindingFlags.Public),
         };
 
         public bool TryGetHint(ExpressionParser parser, Expression expression, out string hint)
@@ -126,7 +126,7 @@ namespace PowerAssert.Hints
         {
             if (expresssion.Member.DeclaringType == typeof (TimeSpan))
             {
-                var totalVersion = typeof (TimeSpan).GetProperty("Total" + expresssion.Member.Name);
+                var totalVersion = ReflectionShim.GetProperty(typeof (TimeSpan), "Total" + expresssion.Member.Name);
                 if (totalVersion != null)
                 {
                     var owner = parser.DynamicInvoke(expresssion.Expression);
